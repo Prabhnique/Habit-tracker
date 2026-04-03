@@ -1,5 +1,8 @@
 const STORAGE_KEY = "habit-tracker-app-state";
 
+const habitForm = document.querySelector(".habit-form");
+const habitInput = document.querySelector("#habit-name");
+const inlineMessage = document.querySelector(".inline-message");
 const habitList = document.querySelector(".habit-list");
 const emptyState = document.querySelector(".empty-state");
 const storageMessage = document.querySelector(".storage-message");
@@ -51,6 +54,10 @@ function saveState(state) {
 
 function showStorageMessage(message) {
   storageMessage.textContent = message;
+}
+
+function showInlineMessage(message) {
+  inlineMessage.textContent = message;
 }
 
 function applyDailyReset(state) {
@@ -121,5 +128,69 @@ function renderHabitList(habits) {
   emptyState.hidden = habits.length > 0;
 }
 
-const appState = loadState();
+function hasDuplicateHabitName(habits, candidateName) {
+  const normalizedName = candidateName.toLowerCase();
+  return habits.some((habit) => habit.name.toLowerCase() === normalizedName);
+}
+
+function validateHabitName(rawName, habits) {
+  const trimmedName = rawName.trim();
+
+  if (!trimmedName) {
+    return {
+      error: "Enter a habit name.",
+      value: "",
+    };
+  }
+
+  if (hasDuplicateHabitName(habits, trimmedName)) {
+    return {
+      error: "That habit already exists.",
+      value: trimmedName,
+    };
+  }
+
+  return {
+    error: "",
+    value: trimmedName,
+  };
+}
+
+function createHabit(name) {
+  return {
+    id: crypto.randomUUID(),
+    name,
+    completedToday: false,
+  };
+}
+
+let appState = loadState();
 renderHabitList(appState.habits);
+
+habitForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const validation = validateHabitName(habitInput.value, appState.habits);
+
+  if (validation.error) {
+    showInlineMessage(validation.error);
+    habitInput.focus();
+    return;
+  }
+
+  const nextState = {
+    ...appState,
+    habits: [...appState.habits, createHabit(validation.value)],
+  };
+
+  const saveSucceeded = saveState(nextState);
+  appState = nextState;
+  renderHabitList(appState.habits);
+  showInlineMessage("");
+  habitInput.value = "";
+  habitInput.focus();
+
+  if (!saveSucceeded) {
+    showInlineMessage("");
+  }
+});
