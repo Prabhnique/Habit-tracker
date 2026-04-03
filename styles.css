@@ -164,7 +164,21 @@ h1 {
 }
 
 .habit-name {
+  flex: 1;
   font-weight: 600;
+}
+
+.delete-button {
+  border: 1px solid var(--surface-border);
+  border-radius: 12px;
+  padding: 8px 12px;
+  background: #fff7f1;
+  color: var(--accent-dark);
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background: #fbe9dc;
 }
 
 .storage-message {

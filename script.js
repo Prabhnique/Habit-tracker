@@ -110,18 +110,25 @@ function renderHabitList(habits) {
   habits.forEach((habit) => {
     const item = document.createElement("li");
     item.className = "habit-item";
+    item.dataset.habitId = habit.id;
 
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.checked = habit.completedToday;
-    checkbox.disabled = true;
+    checkbox.className = "habit-checkbox";
     checkbox.setAttribute("aria-label", `${habit.name} completion status`);
 
     const name = document.createElement("span");
     name.className = "habit-name";
     name.textContent = habit.name;
 
-    item.append(checkbox, name);
+    const deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.className = "delete-button";
+    deleteButton.textContent = "Delete";
+    deleteButton.setAttribute("aria-label", `Delete ${habit.name}`);
+
+    item.append(checkbox, name, deleteButton);
     habitList.append(item);
   });
 
@@ -164,6 +171,16 @@ function createHabit(name) {
   };
 }
 
+function persistAndRender(nextState) {
+  const saveSucceeded = saveState(nextState);
+  appState = nextState;
+  renderHabitList(appState.habits);
+
+  if (saveSucceeded) {
+    showStorageMessage("");
+  }
+}
+
 let appState = loadState();
 renderHabitList(appState.habits);
 
@@ -183,14 +200,66 @@ habitForm.addEventListener("submit", (event) => {
     habits: [...appState.habits, createHabit(validation.value)],
   };
 
-  const saveSucceeded = saveState(nextState);
-  appState = nextState;
-  renderHabitList(appState.habits);
+  persistAndRender(nextState);
   showInlineMessage("");
   habitInput.value = "";
   habitInput.focus();
+});
 
-  if (!saveSucceeded) {
-    showInlineMessage("");
+habitList.addEventListener("change", (event) => {
+  const target = event.target;
+
+  if (!(target instanceof HTMLInputElement) || !target.classList.contains("habit-checkbox")) {
+    return;
   }
+
+  const habitItem = target.closest(".habit-item");
+
+  if (!habitItem) {
+    return;
+  }
+
+  const nextState = {
+    ...appState,
+    habits: appState.habits.map((habit) =>
+      habit.id === habitItem.dataset.habitId
+        ? { ...habit, completedToday: target.checked }
+        : habit
+    ),
+  };
+
+  persistAndRender(nextState);
+});
+
+habitList.addEventListener("click", (event) => {
+  const target = event.target;
+
+  if (!(target instanceof HTMLButtonElement) || !target.classList.contains("delete-button")) {
+    return;
+  }
+
+  const habitItem = target.closest(".habit-item");
+
+  if (!habitItem) {
+    return;
+  }
+
+  const habitToDelete = appState.habits.find((habit) => habit.id === habitItem.dataset.habitId);
+
+  if (!habitToDelete) {
+    return;
+  }
+
+  const confirmed = window.confirm(`Delete "${habitToDelete.name}"?`);
+
+  if (!confirmed) {
+    return;
+  }
+
+  const nextState = {
+    ...appState,
+    habits: appState.habits.filter((habit) => habit.id !== habitToDelete.id),
+  };
+
+  persistAndRender(nextState);
 });
