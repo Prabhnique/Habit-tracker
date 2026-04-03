@@ -143,7 +143,46 @@ h1 {
   padding: 0;
 }
 
+.habit-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--surface-border);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.habit-item + .habit-item {
+  margin-top: 12px;
+}
+
+.habit-item input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+}
+
+.habit-name {
+  font-weight: 600;
+}
+
+.storage-message {
+  min-height: 1.5rem;
+  margin: 16px 0 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.storage-message:not(:empty) {
+  padding: 12px 14px;
+  border: 1px solid rgba(201, 103, 43, 0.24);
+  border-radius: 14px;
+  background: rgba(201, 103, 43, 0.08);
+}
+
 .empty-state {
+  margin-top: 16px;
   margin-bottom: 0;
   padding: 16px 18px;
   border: 1px dashed var(--surface-border);
