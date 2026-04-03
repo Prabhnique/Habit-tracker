@@ -1,0 +1,190 @@
+:root {
+  color-scheme: light;
+  --page-bg: linear-gradient(180deg, #f7efe4 0%, #f3f7f1 100%);
+  --card-bg: rgba(255, 252, 247, 0.92);
+  --card-border: rgba(69, 53, 39, 0.12);
+  --text-main: #2d241d;
+  --text-muted: #68594d;
+  --accent: #c9672b;
+  --accent-dark: #95471a;
+  --surface: #fffdf9;
+  --surface-border: #ddd0c1;
+  --shadow: 0 18px 50px rgba(72, 53, 36, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--page-bg);
+  color: var(--text-main);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.app-card {
+  width: min(100%, 760px);
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+  padding: 32px;
+  backdrop-filter: blur(8px);
+}
+
+.hero,
+.composer,
+.habit-panel {
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: 22px;
+  padding: 24px;
+}
+
+.composer,
+.habit-panel {
+  margin-top: 20px;
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.78rem;
+  color: var(--accent-dark);
+  font-weight: 700;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 12px;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.05;
+}
+
+.intro,
+.section-heading p,
+.inline-message {
+  color: var(--text-muted);
+}
+
+.section-heading {
+  margin-bottom: 16px;
+}
+
+.section-heading h2 {
+  margin-bottom: 6px;
+  font-size: 1.15rem;
+}
+
+.habit-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+}
+
+.habit-form input {
+  min-width: 0;
+  border: 1px solid var(--surface-border);
+  border-radius: 14px;
+  padding: 14px 16px;
+  background: #ffffff;
+  color: var(--text-main);
+}
+
+.habit-form input:focus,
+.habit-form button:focus {
+  outline: 3px solid rgba(201, 103, 43, 0.22);
+  outline-offset: 2px;
+}
+
+.habit-form button {
+  border: none;
+  border-radius: 14px;
+  padding: 14px 18px;
+  background: var(--accent);
+  color: #fff9f4;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.habit-form button:hover {
+  background: var(--accent-dark);
+}
+
+.inline-message {
+  min-height: 1.5rem;
+  margin-bottom: 0;
+  font-size: 0.95rem;
+}
+
+.habit-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.empty-state {
+  margin-bottom: 0;
+  padding: 16px 18px;
+  border: 1px dashed var(--surface-border);
+  border-radius: 16px;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.66);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 640px) {
+  .app-shell {
+    padding: 16px;
+  }
+
+  .app-card {
+    padding: 18px;
+    border-radius: 24px;
+  }
+
+  .hero,
+  .composer,
+  .habit-panel {
+    padding: 18px;
+  }
+
+  .habit-form {
+    grid-template-columns: 1fr;
+  }
+
+  .habit-form button {
+    width: 100%;
+  }
+}

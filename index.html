@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Habit Tracker</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="app-card" aria-labelledby="app-title">
+        <header class="hero">
+          <p class="eyebrow">Habit Tracker</p>
+          <h1 id="app-title">A tiny daily checklist for your routines.</h1>
+          <p class="intro">
+            Add habits, check them off for today, and keep the experience simple.
+          </p>
+        </header>
+
+        <section class="composer" aria-labelledby="composer-title">
+          <div class="section-heading">
+            <h2 id="composer-title">Add a habit</h2>
+            <p>Use the field below to create your first habit.</p>
+          </div>
+
+          <form class="habit-form" action="#" method="get">
+            <label class="sr-only" for="habit-name">Habit name</label>
+            <input
+              id="habit-name"
+              name="habit-name"
+              type="text"
+              placeholder="Drink water"
+              autocomplete="off"
+            />
+            <button type="submit">Add habit</button>
+          </form>
+
+          <p class="inline-message" aria-live="polite">
+            Validation errors will appear here.
+          </p>
+        </section>
+
+        <section class="habit-panel" aria-labelledby="habit-list-title">
+          <div class="section-heading">
+            <h2 id="habit-list-title">Today&apos;s habits</h2>
+            <p>Your habits will appear here in the order you add them.</p>
+          </div>
+
+          <ul class="habit-list" aria-label="Habit list"></ul>
+
+          <p class="empty-state">No habits yet. Add your first habit to get started.</p>
+        </section>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
